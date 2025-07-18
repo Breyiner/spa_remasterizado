@@ -1,6 +1,6 @@
-import { renderHeader } from './componetes/header';
+import { renderHeader } from './components/header';
 import { router } from './router/router';
-import './estilos/style.css'
+import './styles/style.css'
 
 
 const header = document.querySelector("#header");

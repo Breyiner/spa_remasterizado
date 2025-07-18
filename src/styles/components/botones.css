@@ -1,0 +1,40 @@
+.boton {
+  text-decoration: none;
+  color: var(--white);
+  background-color: rgba(44, 106, 53, 0.85);
+  border-radius: 10px;
+  border: none;
+  padding: 6px 15px;
+  cursor: pointer;
+  /* width: 90px; */
+  /* height: 35px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.boton:hover {
+  transition: 0.3s;
+  background-color: var(--colorHover);
+}
+
+.boton--azul {
+  /* padding: 7px; */
+  background-color: rgb(91, 152, 209);
+}
+
+.boton--azul:hover {
+  transition: 0.3s;
+  background-color: rgb(44, 94, 141);
+}
+
+.boton--rojo {
+  /* padding: 7px; */
+  background-color: rgb(209, 91, 91);
+}
+
+.boton--rojo:hover {
+  transition: 0.3s;
+  background-color: rgb(136, 36, 36);
+}

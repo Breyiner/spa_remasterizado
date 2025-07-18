@@ -1,40 +1,64 @@
-import { routers } from "./routers"
+import { routers } from "./routes"
 
-export const router = (elemento) => {
+export const router = async (elemento) => {
     const hash = location.hash.slice(1);
-    const ruta = recorrerRutas(routers, hash);
-    cargarVista(ruta.path, elemento)  
-    //  ruta.controller();
-    // console.log(ruta)
+
+    let arregloHash = hash.split("/");
+    const [ruta, parametros] = recorrerRutas(routers, arregloHash);
+
+    if(!ruta) {
+        elemento.innerHTML = `<h2>Ruta no encontrada</h2>`;
+        return;
+    }
+
+    if(ruta.private){
+        location.hash = "#/login";
+        return;
+    }
+
+    await cargarVista(ruta.path, elemento)  
+    await ruta.controller(parametros);
 
 }
 
-const recorrerRutas = (routers, hash) => {
-
-    console.log(hash.split('/'));
-    let hashSeparado = hash.split("/");
+const recorrerRutas = (routers, arregloHash) => {
     
+    let parametros = {};
+
     for (const key in routers) {
 
-        if (hashSeparado.length == 1 && hashSeparado[0] == "") {
-            // console.log(routers['inicio']);
-            return routers['inicio'];
+        if (arregloHash.length == 4){
+            let parametrosSeparados = arregloHash[3].split("&");
+
+            parametrosSeparados.forEach((parametro) => {
+                let claveValor = parametro.split("=");
+                
+                parametros[claveValor[0]] = claveValor[1];
+            });
+            
+            console.log(parametros);
+            arregloHash.pop();
         }
 
-        if (key == hashSeparado[1]) { 
+        if (arregloHash.length == 1 && arregloHash[0] == "") {
+            return [routers[key], parametros];
+        }
+
+        if (key == arregloHash[1]) { 
             for(const elemento in routers[key]){
-                // console.log(routers[key][hashSeparado[2]]);
+                // console.log(routers[key][arregloHash[2]]);
                 
                 if(typeof routers[key][elemento] == "object"){
-                    return hashSeparado.length == 2 ? 
-                        routers[key][elemento] : 
-                        routers[key][hashSeparado[2]]
+                    
+                    return arregloHash.length == 2 ? 
+                        [routers[key][elemento], parametros] :
+                        [routers[key][arregloHash[2]], parametros];
                 }
             }
-            return routers[key];            
+            return [routers[key], parametros];            
         }
     }
-    return "";
+    return null;
 }
 
 const cargarVista = async (path, elemento) => {
