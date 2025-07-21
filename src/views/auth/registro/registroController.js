@@ -7,19 +7,17 @@ export function registroController(parametros = null) {
   let formulario = document.querySelector('#form');
 
   let nombre = document.querySelector('#nombre');
-  let correo = document.querySelector('#correo');
-  let contrasena = document.querySelector('#contrasena');
+  let correo = document.querySelector('#email');
+  let contrasena = document.querySelector('#password');
   
   nombre.addEventListener("keydown", (e) => {
     validate.validarTexto(e); 
     validate.validarMaximo(e, 40);
   });
   correo.addEventListener("keydown", (e) => {
-    validate.validarTexto(e); 
     validate.validarMaximo(e, 40);
   });
   contrasena.addEventListener("keydown", (e) => {
-    validate.validarTexto(e);
     validate.validarMaximo(e, 40);
   });
 
@@ -45,18 +43,18 @@ export function registroController(parametros = null) {
 
       console.log(datos);
       
-    //   let categoriaCreada = await solcitudes.post(datos, '');
+      let usuarioCreado = await solcitudes.post(datos, 'auth/register');
       
-    //   if(!categoriaCreada.success) {
-    //     error(categoriaCreada.message);
-    //   }
+      if(!usuarioCreado.success) {
+        error(usuarioCreado.message);
+      }
       
-    //   console.log(categoriaCreada.message);
+      console.log(usuarioCreado.message);
       
 
-    //   let confirmacion = await success(categoriaCreada.message);
+      let confirmacion = await success(usuarioCreado.message);
 
-    //   if(confirmacion.isConfirmed) window.location.href='#/categorias';
+      if(confirmacion.isConfirmed) window.location.href='#/categorias';
     }
   });
 }

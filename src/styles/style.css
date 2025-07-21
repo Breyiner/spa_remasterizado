@@ -218,6 +218,10 @@ body {
   min-width: 100px;
 }
 
+.oculto {
+  display: none;
+}
+
 @media (max-width: 1300px) {
   .form {
     padding: 30px;

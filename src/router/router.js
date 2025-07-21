@@ -1,4 +1,5 @@
 import { routers } from "./routes"
+import { isAuth } from "../helpers/auth";
 
 export const router = async (elemento) => {
     const hash = location.hash.slice(1);
@@ -11,7 +12,7 @@ export const router = async (elemento) => {
         return;
     }
 
-    if(ruta.private){
+    if(ruta.private && !await isAuth()){
         location.hash = "#/login";
         return;
     }

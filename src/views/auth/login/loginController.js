@@ -7,15 +7,13 @@ export function loginController(parametros = null) {
   let formulario = document.querySelector('#form');
 
   let correo = document.querySelector('#correo');
-  let contrasena = document.querySelector('#contrasena');
+  let contrasena = document.querySelector('#password');
   
   correo.addEventListener("keydown", (e) => {
-    validate.validarTexto(e); 
     validate.validarMaximo(e, 40);
   });
 
   contrasena.addEventListener("keydown", (e) => {
-    validate.validarTexto(e);
     validate.validarMaximo(e, 40);
   });
 
@@ -37,18 +35,21 @@ export function loginController(parametros = null) {
 
       console.log(datos);
       
-    //   let categoriaCreada = await solcitudes.post(datos, '');
+      let response = await solcitudes.post(datos, 'auth/login');
       
-    //   if(!categoriaCreada.success) {
-    //     error(categoriaCreada.message);
-    //   }
+      if(!response.success) {
+        console.log("hola");
+        
+        error(response.message);
+        return;
+      }
       
-    //   console.log(categoriaCreada.message);
+      console.log(response);
       
 
-    //   let confirmacion = await success(categoriaCreada.message);
+      let confirmacion = await success(response.message);
 
-    //   if(confirmacion.isConfirmed) window.location.href='#/categorias';
+      if(confirmacion.isConfirmed) window.location.href='#/categorias';
     }
   });
 }
